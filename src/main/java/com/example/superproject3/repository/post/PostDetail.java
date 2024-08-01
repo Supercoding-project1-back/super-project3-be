@@ -1,4 +1,4 @@
-package com.example.superproject3.repository.entity;
+package com.example.superproject3.repository.post;
 
 import jakarta.persistence.*;
 import lombok.*;

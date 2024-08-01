@@ -1,5 +1,6 @@
 package com.example.superproject3.repository.entity;
 
+import com.example.superproject3.repository.post.Post;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
