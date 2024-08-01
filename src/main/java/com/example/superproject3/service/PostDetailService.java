@@ -1,8 +1,7 @@
 package com.example.superproject3.service;
 
 import com.example.superproject3.repository.PostDetailRepository;
-import com.example.superproject3.repository.entity.PostDetail;
-import com.example.superproject3.web.dto.PostDetailResponse;
+import com.example.superproject3.repository.post.PostDetail;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,5 +14,4 @@ public class PostDetailService {
     public PostDetail createPostDetail(PostDetail postDetail) {
         return postDetailRepository.save(postDetail);
     }
-
 }
