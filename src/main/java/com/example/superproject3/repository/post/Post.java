@@ -1,7 +1,11 @@
-package com.example.superproject3.repository.entity;
+package com.example.superproject3.repository.post;
 
+import com.example.superproject3.repository.entity.UserPost;
+import com.example.superproject3.repository.entity.Vote;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
@@ -28,9 +32,11 @@ public class Post {
     private String content; // 내용
 
     @Column
+    @ColumnDefault("0")
     private int views; // 조회수
 
     @Column
+    @CreatedDate
     private LocalDateTime created_at; // 작성시간
 
     @Column
