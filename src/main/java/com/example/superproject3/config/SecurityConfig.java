@@ -1,5 +1,8 @@
-package com.example.superproject3.config.security;
+package com.example.superproject3.config;
 
+import com.example.superproject3.config.security.AccessDeniedHandlerImpl;
+import com.example.superproject3.config.security.AuthenticationEntryPointImpl;
+import com.example.superproject3.config.security.JwtTokenProvider;
 import com.example.superproject3.config.security.filters.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
