@@ -28,7 +28,6 @@ import java.util.List;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-
     private final JwtTokenProvider jwtTokenProvider;
 
     @Bean
@@ -48,7 +47,6 @@ public class SecurityConfig {
                         .anyRequest().permitAll()
                 )
                 .addFilterBefore(new JwtFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
-
         return http.build();
     }
 
