@@ -1,8 +1,8 @@
 package com.example.superproject3.service.mapper;
 
 import com.example.superproject3.repository.post.PostDetail;
-import com.example.superproject3.web.dto.PostDetailRequest;
-import com.example.superproject3.web.dto.PostDetailResponse;
+import com.example.superproject3.web.dto.post.PostDetailRequest;
+import com.example.superproject3.web.dto.post.PostDetailResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

@@ -12,30 +12,34 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@EqualsAndHashCode(of = "userId")
+@EqualsAndHashCode(of = "id")  // 수정: userId가 아니라 id
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @EntityListeners(AuditingEntityListener.class)
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, unique = true)  // 이메일은 유일해야 함
+    private String email; // 이메일 추가
+
+    @Column(nullable = false)  // 비밀번호는 반드시 있어야 함
+    private String password; // 비밀번호 추가
+
     @Column
-    private String nickname; //  닉네임
+    private String nickname; // 닉네임
 
     @Column
     private String residence; // 사는 곳
 
     @Column
-    private String profile_picture; // 프로픨 사진
+    private String profile_picture; // 프로필 사진
 
     @Column
     private String introduction; // 자기소개
-
-//    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-//    private List<Chat> chats = new ArrayList<>();
 
     @OneToMany(mappedBy = "user1", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Chat> chatAsUser1;

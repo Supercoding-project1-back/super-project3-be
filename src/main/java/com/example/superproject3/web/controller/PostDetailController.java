@@ -1,10 +1,10 @@
 package com.example.superproject3.web.controller;
 
 import com.example.superproject3.repository.post.PostDetail;
-import com.example.superproject3.service.PostDetailService;
+import com.example.superproject3.service.post.PostDetailService;
 import com.example.superproject3.service.mapper.PostDetailMapper;
-import com.example.superproject3.web.dto.PostDetailRequest;
-import com.example.superproject3.web.dto.PostDetailResponse;
+import com.example.superproject3.web.dto.post.PostDetailRequest;
+import com.example.superproject3.web.dto.post.PostDetailResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;

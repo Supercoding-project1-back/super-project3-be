@@ -1,4 +1,4 @@
-package com.example.superproject3.web.dto;
+package com.example.superproject3.web.dto.post;
 
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
