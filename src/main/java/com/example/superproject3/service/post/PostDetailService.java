@@ -1,6 +1,6 @@
-package com.example.superproject3.service;
+package com.example.superproject3.service.post;
 
-import com.example.superproject3.repository.PostDetailRepository;
+import com.example.superproject3.repository.post.PostDetailRepository;
 import com.example.superproject3.repository.post.PostDetail;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
