@@ -27,7 +27,7 @@ public class User {
     @Column(nullable = false, unique = true)  // 이메일은 유일해야 함
     private String email; // 이메일 추가
 
-    @Column(nullable = true)  // 카카오 로그인 유저는 비밀번호가 없을수가 있음
+    @Column(nullable = false) // 비밀번호는 반드시 존재해야 함
     private String password; // 비밀번호 추가
 
     @Column
