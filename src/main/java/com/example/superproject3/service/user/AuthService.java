@@ -31,8 +31,8 @@ public class AuthService {
                 .email(userRegistrationDto.getEmail())
                 .password(passwordEncoder.encode(userRegistrationDto.getPassword()))
                 .nickname(userRegistrationDto.getNickname())
-                .residence(userRegistrationDto.getLocation()) // 위치 필드 수정
-                .profile_picture(userRegistrationDto.getProfileImage())
+                .residence(userRegistrationDto.getResidence()) // 위치 필드 수정
+                .profile_picture(userRegistrationDto.getProfilePicture())
                 .introduction(userRegistrationDto.getIntroduction())
                 .roles(Set.of("ROLE_USER")) // 기본 역할 설정
                 .build();
