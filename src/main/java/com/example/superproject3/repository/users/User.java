@@ -7,14 +7,15 @@ import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")  // 수정: userId가 아니라 id
 @AllArgsConstructor
-@NoArgsConstructor
 @Builder
 @EntityListeners(AuditingEntityListener.class)
 public class User {
@@ -26,7 +27,7 @@ public class User {
     @Column(nullable = false, unique = true)  // 이메일은 유일해야 함
     private String email; // 이메일 추가
 
-    @Column(nullable = false)  // 비밀번호는 반드시 있어야 함
+    @Column(nullable = true)  // 카카오 로그인 유저는 비밀번호가 없을수가 있음
     private String password; // 비밀번호 추가
 
     @Column
@@ -41,6 +42,9 @@ public class User {
     @Column
     private String introduction; // 자기소개
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<String> roles = new HashSet<>();
+
     @OneToMany(mappedBy = "user1", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Chat> chatAsUser1;
 
@@ -49,4 +53,8 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<UserPost> userPosts = new ArrayList<>();
+
+    public User() {
+        this.roles.add("ROLE_USER"); // 기본 역할
+    }
 }

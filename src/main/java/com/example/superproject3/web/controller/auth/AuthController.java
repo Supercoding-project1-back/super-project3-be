@@ -3,17 +3,18 @@ package com.example.superproject3.web.controller.auth;
 import com.example.superproject3.web.dto.user.UserRegistrationDto;
 import com.example.superproject3.web.dto.user.UserLoginDto;
 import com.example.superproject3.service.user.AuthService;
-import com.example.superproject3.service.user.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
@@ -21,7 +22,6 @@ import java.util.List;
 public class AuthController {
 
     private final AuthService authService;
-    private final UserService userService;
 
     @Operation(summary = "회원 가입", description = "회원 가입을 합니다.")
     @PostMapping("/sign-up")
@@ -38,12 +38,25 @@ public class AuthController {
         return (String) tokenAndResponse.get(1);
     }
 
-    @Operation(summary = "카카오 로그인", description = "카카오 계정을 사용하여 로그인합니다.")
+    // 인증 코드를 발급받는 엔드포인트
+    @Operation(summary = "카카오 인증 코드 발급", description = "카카오 인증 코드를 발급받습니다.")
     @GetMapping("/login/kakao")
-    public String kakaoLogin(@RequestParam String code, HttpServletResponse response) {
-        String token = authService.kakaoLogin(code);
-        response.setHeader("Authorization", "Bearer " + token);
-        return "Kakao login successful";
+    public ResponseEntity<?> getKakaoCode(@RequestParam String code) {
+        // 클라이언트에 인증 코드를 전달
+        return ResponseEntity.ok(Map.of("code", code, "message", "카카오 인증 코드 발급 성공"));
+    }
+
+    // 액세스 토큰을 클라이언트에서 요청하는 엔드포인트
+    @PostMapping("/token/kakao")
+    public ResponseEntity<?> requestKakaoToken(@RequestBody Map<String, String> body) {
+        String code = body.get("code");
+        try {
+            String token = authService.kakaoLogin(code);
+            return ResponseEntity.ok(Map.of("token", token, "message", "카카오 로그인 성공"));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "카카오 로그인 실패", "message", e.getMessage()));
+        }
     }
 
     @Operation(summary = "토큰 관련 에러", description = "토큰이 없거나 만료된 경우 메시지가 나옵니다.")
@@ -64,5 +77,12 @@ public class AuthController {
         } else {
             throw new AccessDeniedException("권한이 없습니다. 시도한 유저의 권한: " + roles);
         }
+    }
+
+    // 인증 코드만 발급받는 엔드포인트
+    @GetMapping("/kakao/callback")
+    public ResponseEntity<?> kakaoCallback(@RequestParam("code") String code) {
+        // 인증 코드만 반환
+        return ResponseEntity.ok(Map.of("code", code, "message", "카카오 인증 코드 발급 성공"));
     }
 }

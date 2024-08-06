@@ -12,9 +12,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Base64;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 @Slf4j
@@ -37,12 +41,15 @@ public class JwtTokenProvider {
     }
 
     // JWT 토큰 생성
-    public String createToken(String email) {
+    public String createToken(String email, Set<String> roles) {
+        Claims claims = Jwts.claims().setSubject(email);
+        claims.put("roles", roles);
+
         Date now = new Date();
         Date validity = new Date(now.getTime() + validityInMilliseconds);
 
         return Jwts.builder()
-                .setSubject(email)
+                .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(validity)
                 .signWith(SignatureAlgorithm.HS256, base64SecretKey)
@@ -66,13 +73,20 @@ public class JwtTokenProvider {
 
     // 인증 정보 추출
     public Authentication getAuthentication(String token) {
-        String email = Jwts.parser()
-                .setSigningKey(base64SecretKey)
-                .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
-
-        UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(getUsername(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
+
+    // 사용자 이름 추출
+    public String getUsername(String token) {
+        return Jwts.parser().setSigningKey(base64SecretKey).parseClaimsJws(token).getBody().getSubject();
+    }
+
+    // 역할 정보 추출
+    public List<SimpleGrantedAuthority> getRoles(String token) {
+        Claims claims = Jwts.parser().setSigningKey(base64SecretKey).parseClaimsJws(token).getBody();
+        List<String> roles = claims.get("roles", List.class);
+        return roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+    }
+
 }
