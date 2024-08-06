@@ -38,15 +38,8 @@ public class AuthController {
         return (String) tokenAndResponse.get(1);
     }
 
-    // 인증 코드를 발급받는 엔드포인트
-    @Operation(summary = "카카오 인증 코드 발급", description = "카카오 인증 코드를 발급받습니다.")
-    @GetMapping("/login/kakao")
-    public ResponseEntity<?> getKakaoCode(@RequestParam String code) {
-        // 클라이언트에 인증 코드를 전달
-        return ResponseEntity.ok(Map.of("code", code, "message", "카카오 인증 코드 발급 성공"));
-    }
-
     // 액세스 토큰을 클라이언트에서 요청하는 엔드포인트
+    @Operation(summary = "엑세스 토큰 요청", description = "엑세스 토큰을 요청합니다.")
     @PostMapping("/token/kakao")
     public ResponseEntity<?> requestKakaoToken(@RequestBody Map<String, String> body) {
         String code = body.get("code");
@@ -80,6 +73,7 @@ public class AuthController {
     }
 
     // 인증 코드만 발급받는 엔드포인트
+    @Operation(summary = "카카오 인증 코드 발급", description = "카카오 인증 코드를 발급받습니다.")
     @GetMapping("/kakao/callback")
     public ResponseEntity<?> kakaoCallback(@RequestParam("code") String code) {
         // 인증 코드만 반환
