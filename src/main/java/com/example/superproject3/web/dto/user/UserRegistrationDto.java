@@ -8,9 +8,6 @@ public class UserRegistrationDto {
     @Schema(description = "사용자의 이메일", example = "user@example.com")
     private String email;
 
-    @Schema(description = "사용자의 비밀번호", example = "securepassword")
-    private String password;
-
     @Schema(description = "사용자의 닉네임", example = "exampleNickname")
     private String nickname;
 

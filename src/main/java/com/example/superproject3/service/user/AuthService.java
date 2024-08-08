@@ -1,7 +1,6 @@
 package com.example.superproject3.service.user;
 
 import com.example.superproject3.config.security.JwtTokenProvider;
-import com.example.superproject3.web.dto.user.UserLoginDto;
 import com.example.superproject3.web.dto.user.UserRegistrationDto;
 import com.example.superproject3.repository.users.User;
 import com.example.superproject3.repository.users.UserRepository;
@@ -29,7 +28,6 @@ public class AuthService {
 
         User user = User.builder()
                 .email(userRegistrationDto.getEmail())
-                .password(passwordEncoder.encode(userRegistrationDto.getPassword()))
                 .nickname(userRegistrationDto.getNickname())
                 .residence(userRegistrationDto.getResidence())
                 .profile_picture(userRegistrationDto.getProfilePicture())
