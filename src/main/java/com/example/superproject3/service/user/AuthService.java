@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -23,16 +24,17 @@ public class AuthService {
 
     public void signUp(UserRegistrationDto userRegistrationDto) {
         if (userRepository.existsByEmail(userRegistrationDto.getEmail())) {
-            throw new IllegalArgumentException("Email is already registered");
+            throw new IllegalArgumentException("이메일이 이미 등록되어 있습니다.");
         }
 
         User user = User.builder()
                 .email(userRegistrationDto.getEmail())
                 .password(passwordEncoder.encode(userRegistrationDto.getPassword()))
                 .nickname(userRegistrationDto.getNickname())
-                .residence(userRegistrationDto.getLocation()) // 위치 필드 수정
-                .profile_picture(userRegistrationDto.getProfileImage())
+                .residence(userRegistrationDto.getResidence()) // 위치 필드 수정
+                .profile_picture(userRegistrationDto.getProfilePicture())
                 .introduction(userRegistrationDto.getIntroduction())
+                .roles(Set.of("ROLE_USER")) // 기본 역할 설정
                 .build();
 
         userRepository.save(user);
@@ -46,15 +48,15 @@ public class AuthService {
             throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
 
-        String token = jwtTokenProvider.createToken(user.getEmail());
+        String token = jwtTokenProvider.createToken(user.getEmail(), user.getRoles());
+
         return List.of(token, "로그인 성공");
     }
 
     public String kakaoLogin(String code) {
-        String email = kakaoApiClient.getEmailFromKakao(code);
-        User user = userRepository.findByEmail(email)
-                .orElseGet(() -> userRepository.save(User.builder().email(email).build()));
-
-        return jwtTokenProvider.createToken(user.getEmail());
+        // 인증 코드를 받아 액세스 토큰을 요청
+        String accessToken = kakaoApiClient.getAccessToken(code);
+        return accessToken; // 토큰만 반환
     }
+
 }

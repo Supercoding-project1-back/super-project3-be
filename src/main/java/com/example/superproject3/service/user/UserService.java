@@ -6,6 +6,7 @@ import com.example.superproject3.repository.users.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -30,8 +31,8 @@ public class UserService {
                 .email(userRegistrationDto.getEmail())
                 .password(passwordEncoder.encode(userRegistrationDto.getPassword()))
                 .nickname(userRegistrationDto.getNickname())
-                .residence(userRegistrationDto.getLocation()) // 위치 필드 설정
-                .profile_picture(userRegistrationDto.getProfileImage()) // 프로필 이미지 필드 설정
+                .residence(userRegistrationDto.getResidence()) // 위치 필드 설정
+                .profile_picture(userRegistrationDto.getProfilePicture()) // 프로필 이미지 필드 설정
                 .introduction(userRegistrationDto.getIntroduction())
                 .build();
 
@@ -65,16 +66,29 @@ public class UserService {
         if (updateDto.getNickname() != null) {
             user.setNickname(updateDto.getNickname());
         }
-        if (updateDto.getLocation() != null) {
-            user.setResidence(updateDto.getLocation()); // 수정: setResidence
+        if (updateDto.getResidence() != null) {
+            user.setResidence(updateDto.getResidence());
         }
-        if (updateDto.getProfileImage() != null) {
-            user.setProfile_picture(updateDto.getProfileImage()); // 수정: setProfile_picture
+        if (updateDto.getProfilePicture() != null) {
+            user.setProfile_picture(updateDto.getProfilePicture());
         }
         if (updateDto.getIntroduction() != null) {
             user.setIntroduction(updateDto.getIntroduction());
         }
 
         userRepository.save(user);
+    }
+
+    /**
+     * 사용자 정보를 삭제합니다.
+     *
+     * @param email 삭제할 사용자 ID
+     */
+    @Transactional
+    public void deleteUser(String email) {
+        if (!userRepository.existsByEmail(email)) {
+            throw new IllegalArgumentException("해당 email을 가진 유저를 찾지 못했습니다: " + email);
+        }
+        userRepository.deleteByEmail(email);
     }
 }
