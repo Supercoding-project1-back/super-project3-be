@@ -31,32 +31,30 @@ public class AuthService {
                 .email(userRegistrationDto.getEmail())
                 .password(passwordEncoder.encode(userRegistrationDto.getPassword()))
                 .nickname(userRegistrationDto.getNickname())
-                .residence(userRegistrationDto.getResidence()) // 위치 필드 수정
+                .residence(userRegistrationDto.getResidence())
                 .profile_picture(userRegistrationDto.getProfilePicture())
                 .introduction(userRegistrationDto.getIntroduction())
-                .roles(Set.of("ROLE_USER")) // 기본 역할 설정
+                .roles(Set.of("ROLE_USER"))
                 .build();
 
         userRepository.save(user);
     }
 
-    public List<Object> login(UserLoginDto loginRequest) {
-        User user = userRepository.findByEmail(loginRequest.getEmail())
-                .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다."));
+    public List<Object> kakaoLogin(String code) {
+        String email = kakaoApiClient.getEmailFromKakao(code);
 
-        if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
-            throw new IllegalArgumentException("잘못된 비밀번호입니다.");
-        }
+        User user = userRepository.findByEmail(email)
+                .orElseGet(() -> {
+                    User newUser = User.builder()
+                            .email(email)
+                            .password(passwordEncoder.encode("kakao")) // 기본 비밀번호 설정
+                            .roles(Set.of("ROLE_USER"))
+                            .build();
+                    return userRepository.save(newUser);
+                });
 
         String token = jwtTokenProvider.createToken(user.getEmail(), user.getRoles());
 
-        return List.of(token, "로그인 성공");
+        return List.of(token, "카카오 로그인 성공");
     }
-
-    public String kakaoLogin(String code) {
-        // 인증 코드를 받아 액세스 토큰을 요청
-        String accessToken = kakaoApiClient.getAccessToken(code);
-        return accessToken; // 토큰만 반환
-    }
-
 }

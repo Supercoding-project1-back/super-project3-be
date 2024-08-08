@@ -22,13 +22,11 @@ public class KakaoApiClient {
     @Value("${KAKAO_REDIRECT_URI}")
     private String redirectUri;
 
-    // 카카오 인증 코드로 이메일 가져오기
     public String getEmailFromKakao(String code) {
         String accessToken = getAccessToken(code);
         return getUserEmail(accessToken);
     }
 
-    // 액세스 토큰 요청
     public String getAccessToken(String code) {
         String url = "https://kauth.kakao.com/oauth/token";
 
@@ -58,11 +56,10 @@ public class KakaoApiClient {
                 throw new RuntimeException("엑세스 토큰을 포함하고 있지 않습니다.");
             }
         } else {
-            throw new RuntimeException("이메일을 찾는 데 실패했습니다: " + response.getStatusCode());
+            throw new RuntimeException("엑세스 토큰 요청 실패: " + response.getStatusCode());
         }
     }
 
-    // 사용자 이메일 요청
     private String getUserEmail(String accessToken) {
         String url = "https://kapi.kakao.com/v2/user/me";
 
@@ -85,13 +82,13 @@ public class KakaoApiClient {
                 if (kakaoAccount != null && kakaoAccount.containsKey("email")) {
                     return (String) kakaoAccount.get("email");
                 } else {
-                    throw new RuntimeException("카카오 계정정보 혹은 이메일이 잘못되었습니다.");
+                    throw new RuntimeException("카카오 계정 정보 또는 이메일이 잘못되었습니다.");
                 }
             } else {
-                throw new RuntimeException("body가 비어있거나 카카오 계정을 포함하고 있지 않습니다");
+                throw new RuntimeException("응답이 비어있거나 카카오 계정을 포함하고 있지 않습니다.");
             }
         } else {
-            throw new RuntimeException("이메일을 찾는 데 실패했습니다: " + response.getStatusCode());
+            throw new RuntimeException("이메일 요청 실패: " + response.getStatusCode());
         }
     }
 }

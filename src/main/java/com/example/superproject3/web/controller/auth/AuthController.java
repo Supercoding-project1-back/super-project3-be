@@ -30,49 +30,19 @@ public class AuthController {
         return "User registration successful";
     }
 
-    @Operation(summary = "로그인", description = "로그인을 합니다.")
-    @PostMapping("/login")
-    public String login(@Parameter(description = "로그인 정보") @RequestBody UserLoginDto loginRequest, HttpServletResponse response) {
-        List<Object> tokenAndResponse = authService.login(loginRequest);
-        response.setHeader("Authorization", "Bearer " + tokenAndResponse.get(0));
-        return (String) tokenAndResponse.get(1);
-    }
-
-    // 액세스 토큰을 클라이언트에서 요청하는 엔드포인트
-    @Operation(summary = "엑세스 토큰 요청", description = "엑세스 토큰을 요청합니다.")
-    @PostMapping("/token/kakao")
-    public ResponseEntity<?> requestKakaoToken(@RequestBody Map<String, String> body) {
+    @Operation(summary = "카카오 로그인", description = "카카오 로그인을 통해 JWT 토큰을 발급받습니다.")
+    @PostMapping("/login/kakao")
+    public ResponseEntity<?> kakaoLogin(@RequestBody Map<String, String> body) {
         String code = body.get("code");
         try {
-            String token = authService.kakaoLogin(code);
-            return ResponseEntity.ok(Map.of("token", token, "message", "카카오 로그인 성공"));
+            List<Object> tokenAndResponse = authService.kakaoLogin(code);
+            return ResponseEntity.ok(Map.of("token", tokenAndResponse.get(0), "message", tokenAndResponse.get(1)));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Map.of("error", "카카오 로그인 실패", "message", e.getMessage()));
         }
     }
 
-    @Operation(summary = "토큰 관련 에러", description = "토큰이 없거나 만료된 경우 메시지가 나옵니다.")
-    @GetMapping("/entrypoint")
-    public void entrypointException(@Parameter(description = "요청된 token 값") @RequestParam(name = "token", required = false) String token) {
-        if (token == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "로그인(Jwt 토큰)이 필요합니다.");
-        } else {
-            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "로그인이 만료되었습니다.", new RuntimeException("유효하지 않은 토큰: " + token));
-        }
-    }
-
-    @Operation(summary = "유저 권한 에러", description = "유저 권한이 올바르지 않을 때 메시지가 나옵니다.")
-    @GetMapping("/access-denied")
-    public void accessDeniedException(@Parameter(description = "확인할 Role 값") @RequestParam(name = "roles", required = false) String roles) {
-        if (roles == null) {
-            throw new AccessDeniedException("권한이 설정되지 않았습니다.");
-        } else {
-            throw new AccessDeniedException("권한이 없습니다. 시도한 유저의 권한: " + roles);
-        }
-    }
-
-    // 인증 코드만 발급받는 엔드포인트
     @Operation(summary = "카카오 인증 코드 발급", description = "카카오 인증 코드를 발급받습니다.")
     @GetMapping("/kakao/callback")
     public ResponseEntity<?> kakaoCallback(@RequestParam("code") String code) {
