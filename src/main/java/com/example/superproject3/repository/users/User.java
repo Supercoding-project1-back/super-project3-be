@@ -27,8 +27,8 @@ public class User {
     @Column(nullable = false, unique = true)  // 이메일은 유일해야 함
     private String email; // 이메일 추가
 
-    @Column(nullable = false) // 비밀번호는 반드시 존재해야 함
-    private String password; // 비밀번호 추가
+    @Column
+    private String password; //사용되지 않음
 
     @Column
     private String nickname; // 닉네임
