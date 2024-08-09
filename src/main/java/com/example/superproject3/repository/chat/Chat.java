@@ -1,4 +1,4 @@
-package com.example.superproject3.repository.entity;
+package com.example.superproject3.repository.chat;
 
 import com.example.superproject3.repository.users.User;
 import jakarta.persistence.*;
@@ -20,14 +20,6 @@ public class Chat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-//    @ManyToOne
-//    @JoinColumn(name = "user_id")
-//    private User user1;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "user_id")
-//    private User user2;
 
     @ManyToOne
     @JoinColumn(name = "user_id1")

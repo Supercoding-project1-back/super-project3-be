@@ -1,12 +1,14 @@
 package com.example.superproject3.service.user;
 
 import com.example.superproject3.repository.users.User;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
 
+@ToString
 public class CustomUserDetails implements UserDetails {
 
     private final User user;

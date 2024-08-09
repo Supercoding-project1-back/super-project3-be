@@ -1,4 +1,4 @@
-package com.example.superproject3.repository.entity;
+package com.example.superproject3.repository.chat;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,10 +14,16 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
+@ToString
 public class Message {
+    public enum MessageType {
+        ENTER, TALK, EXIT
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private MessageType type;
 
     @Column
     private String content; // 내용

@@ -1,6 +1,6 @@
 package com.example.superproject3.repository.users;
 
-import com.example.superproject3.repository.entity.Chat;
+import com.example.superproject3.repository.chat.Chat;
 import com.example.superproject3.repository.entity.UserPost;
 import jakarta.persistence.*;
 import lombok.*;
@@ -18,6 +18,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @EntityListeners(AuditingEntityListener.class)
+@ToString
 public class User {
 
     @Id
@@ -45,13 +46,13 @@ public class User {
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> roles = new HashSet<>();
 
-    @OneToMany(mappedBy = "user1", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "user1", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, fetch = FetchType.EAGER)
     private List<Chat> chatAsUser1;
 
-    @OneToMany(mappedBy = "user2", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "user2", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, fetch = FetchType.EAGER)
     private List<Chat> chatAsUser2;
 
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, fetch = FetchType.EAGER)
     private List<UserPost> userPosts = new ArrayList<>();
 
     public User() {
