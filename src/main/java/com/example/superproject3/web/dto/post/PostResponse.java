@@ -9,6 +9,7 @@ import lombok.Setter;
 @Builder
 public class PostResponse {
     private Long id;
+    private String email;
     private String title;
     private String content;
     private String category;
