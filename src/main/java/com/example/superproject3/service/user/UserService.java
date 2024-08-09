@@ -4,7 +4,6 @@ import com.example.superproject3.web.dto.user.UserRegistrationDto;
 import com.example.superproject3.repository.users.User;
 import com.example.superproject3.repository.users.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
 
     /**
      * 새로운 사용자를 등록합니다.
@@ -29,11 +27,11 @@ public class UserService {
         // 사용자 객체 생성
         User user = User.builder()
                 .email(userRegistrationDto.getEmail())
-                .password(passwordEncoder.encode(userRegistrationDto.getPassword()))
                 .nickname(userRegistrationDto.getNickname())
                 .residence(userRegistrationDto.getResidence()) // 위치 필드 설정
                 .profile_picture(userRegistrationDto.getProfilePicture()) // 프로필 이미지 필드 설정
                 .introduction(userRegistrationDto.getIntroduction())
+                .password("defaultPassword") // 비밀번호는 기본값으로 설정
                 .build();
 
         // 사용자 저장
@@ -60,9 +58,6 @@ public class UserService {
     public void updateUser(String email, UserRegistrationDto updateDto) {
         User user = getUserByEmail(email);
 
-        if (updateDto.getPassword() != null && !updateDto.getPassword().isEmpty()) {
-            user.setPassword(passwordEncoder.encode(updateDto.getPassword()));
-        }
         if (updateDto.getNickname() != null) {
             user.setNickname(updateDto.getNickname());
         }

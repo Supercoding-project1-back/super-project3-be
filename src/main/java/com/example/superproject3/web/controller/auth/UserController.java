@@ -45,5 +45,4 @@ public class UserController {
         userService.deleteUser(email);
         return ResponseEntity.ok("사용자를 성공적으로 삭제했습니다.");
     }
-
 }
