@@ -1,18 +1,13 @@
 package com.example.superproject3.web.controller.auth;
 
 import com.example.superproject3.web.dto.user.UserRegistrationDto;
-import com.example.superproject3.web.dto.user.UserLoginDto;
 import com.example.superproject3.service.user.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 

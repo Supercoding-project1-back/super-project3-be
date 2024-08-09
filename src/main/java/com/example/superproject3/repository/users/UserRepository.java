@@ -1,6 +1,5 @@
 package com.example.superproject3.repository.users;
 
-import com.example.superproject3.repository.users.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 

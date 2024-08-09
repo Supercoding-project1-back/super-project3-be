@@ -1,4 +1,4 @@
-package com.example.superproject3.web.controller;
+package com.example.superproject3.web.controller.post;
 
 import com.example.superproject3.repository.post.PostDetail;
 import com.example.superproject3.service.post.PostDetailService;

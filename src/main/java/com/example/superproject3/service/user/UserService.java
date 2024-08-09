@@ -4,7 +4,6 @@ import com.example.superproject3.web.dto.user.UserRegistrationDto;
 import com.example.superproject3.repository.users.User;
 import com.example.superproject3.repository.users.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
