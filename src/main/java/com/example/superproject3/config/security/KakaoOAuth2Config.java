@@ -15,9 +15,6 @@ public class KakaoOAuth2Config {
     @Value("${kakao.client-id}")
     private String clientId;
 
-    @Value("${kakao.client-secret}")
-    private String clientSecret;
-
     @Value("${kakao.redirect-uri}")
     private String redirectUri;
 
@@ -29,8 +26,7 @@ public class KakaoOAuth2Config {
     private ClientRegistration kakaoClientRegistration() {
         return ClientRegistration.withRegistrationId("kakao")
                 .clientId(clientId)
-                .clientSecret(clientSecret)
-                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
+                .clientAuthenticationMethod(ClientAuthenticationMethod.NONE) // 카카오는 클라이언트 시크릿을 사용하지 않음
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .redirectUri(redirectUri)
                 .scope("profile", "account_email")
@@ -41,4 +37,5 @@ public class KakaoOAuth2Config {
                 .clientName("Kakao")
                 .build();
     }
+
 }
