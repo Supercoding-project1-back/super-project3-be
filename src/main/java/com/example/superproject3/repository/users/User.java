@@ -1,7 +1,7 @@
 package com.example.superproject3.repository.users;
 
 import com.example.superproject3.repository.entity.Chat;
-import com.example.superproject3.repository.entity.UserPost;
+import com.example.superproject3.repository.userPost.UserPost;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
