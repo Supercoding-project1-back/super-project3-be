@@ -1,5 +1,6 @@
 package com.example.superproject3.repository.userPost;
 
+import com.example.superproject3.repository.userPost.UserPost;
 import com.example.superproject3.repository.post.Post;
 import com.example.superproject3.repository.users.User;
 import org.springframework.data.domain.Page;
