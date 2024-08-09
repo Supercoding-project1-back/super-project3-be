@@ -1,5 +1,6 @@
-package com.example.superproject3.repository.entity;
+package com.example.superproject3.repository.userPost;
 
+import com.example.superproject3.repository.entity.Vote;
 import com.example.superproject3.repository.users.User;
 import com.example.superproject3.repository.post.Post;
 import jakarta.persistence.*;
