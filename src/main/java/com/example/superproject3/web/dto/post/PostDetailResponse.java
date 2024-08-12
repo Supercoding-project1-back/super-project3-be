@@ -1,5 +1,6 @@
 package com.example.superproject3.web.dto.post;
 
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,9 +15,9 @@ public class PostDetailResponse {
     @Schema(description = "이미지2 주소")
     private String image2; // 이미지2
 
-    @Schema(description = "지도 x 좌표")
-    private double x; // x 좌표
+    @Schema(description = "지도 x 좌표", example = "10.32401")
+    private Double x; // x 좌표
 
-    @Schema(description = "지도 y 좌표")
-    private double y; // y 좌표
+    @Schema(description = "지도 y 좌표", example = "290.19223")
+    private Double y; // y 좌표
 }
