@@ -13,48 +13,11 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    /**
-     * 새로운 사용자를 등록합니다.
-     *
-     * @param userRegistrationDto 회원가입 정보
-     */
-    public void registerNewUser(UserRegistrationDto userRegistrationDto) {
-        // 이메일 중복 확인
-        if (userRepository.existsByEmail(userRegistrationDto.getEmail())) {
-            throw new IllegalArgumentException("이미 등록된 이메일입니다.");
-        }
-
-        // 사용자 객체 생성
-        User user = User.builder()
-                .email(userRegistrationDto.getEmail())
-                .nickname(userRegistrationDto.getNickname())
-                .residence(userRegistrationDto.getResidence()) // 위치 필드 설정
-                .profile_picture(userRegistrationDto.getProfilePicture()) // 프로필 이미지 필드 설정
-                .introduction(userRegistrationDto.getIntroduction())
-                .password("defaultPassword") // 비밀번호는 기본값으로 설정
-                .build();
-
-        // 사용자 저장
-        userRepository.save(user);
-    }
-
-    /**
-     * 사용자 정보를 이메일로 조회합니다.
-     *
-     * @param email 사용자 이메일
-     * @return 사용자 정보
-     */
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("해당 이메일을 가진 유저를 찾지 못했습니다: " + email));
     }
 
-    /**
-     * 사용자 정보를 업데이트합니다.
-     *
-     * @param email 사용자 이메일
-     * @param updateDto 업데이트할 사용자 정보
-     */
     public void updateUser(String email, UserRegistrationDto updateDto) {
         User user = getUserByEmail(email);
 
@@ -74,16 +37,17 @@ public class UserService {
         userRepository.save(user);
     }
 
-    /**
-     * 사용자 정보를 삭제합니다.
-     *
-     * @param email 삭제할 사용자 ID
-     */
     @Transactional
     public void deleteUser(String email) {
         if (!userRepository.existsByEmail(email)) {
             throw new IllegalArgumentException("해당 email을 가진 유저를 찾지 못했습니다: " + email);
         }
         userRepository.deleteByEmail(email);
+    }
+
+    public void updateUserResidence(String email, String residence){
+        User user = userRepository.findByEmail(email).orElseThrow(()-> new IllegalArgumentException("해당 email을 가진 유저를 찾지 못했습니다: " + email));
+        user.setResidence(residence);
+        userRepository.save(user);
     }
 }
