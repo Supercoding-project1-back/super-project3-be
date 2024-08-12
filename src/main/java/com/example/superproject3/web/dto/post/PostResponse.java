@@ -19,6 +19,8 @@ public class PostResponse {
     private String content;
     @Schema(description = "게시글 카테고리")
     private String category;
+    @Schema(description = "게시글 조회수")
+    private int views;
     @Schema(description = "게시글 게시 일자")
     private String create_at;
 }

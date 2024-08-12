@@ -30,6 +30,7 @@ public class PostService {
                         .title(r.getPost().getTitle())
                         .content(r.getPost().getContent())
                         .category(r.getPost().getCategory())
+                        .views(r.getPost().getViews())
                         .create_at(r.getPost().getCreated_at().toString())
                         .build());
     }
@@ -42,6 +43,7 @@ public class PostService {
                         .title(r.getPost().getTitle())
                         .content(r.getPost().getContent())
                         .category(r.getPost().getCategory())
+                        .views(r.getPost().getViews())
                         .create_at(r.getPost().getCreated_at().toString())
                         .build());
     }
@@ -54,6 +56,7 @@ public class PostService {
                         .title(r.getPost().getTitle())
                         .content(r.getPost().getContent())
                         .category(r.getPost().getCategory())
+                        .views(r.getPost().getViews())
                         .create_at(r.getPost().getCreated_at().toString())
                         .build());
     }
@@ -61,13 +64,19 @@ public class PostService {
     public PostResponse getPostById(Long postId) {
         UserPost userPost =  userPostRepository.findByPostId(postId);
 
+        Post post = userPost.getPost();
+        post.setViews(post.getViews()+1);
+
+        postRepository.save(post);
+
         return PostResponse.builder()
-                .id(userPost.getPost().getId())
+                .id(post.getId())
                 .email(userPost.getUser().getEmail())
-                .title(userPost.getPost().getTitle())
-                .content(userPost.getPost().getContent())
-                .category(userPost.getPost().getCategory())
-                .create_at(userPost.getPost().getCreated_at().toString())
+                .title(post.getTitle())
+                .content(post.getContent())
+                .category(post.getCategory())
+                .views(post.getViews())
+                .create_at(post.getCreated_at().toString())
                 .build();
     }
 
@@ -112,6 +121,7 @@ public class PostService {
                 .title(post.getTitle())
                 .content(post.getContent())
                 .category(post.getCategory())
+                .views(post.getViews())
                 .create_at(post.getCreated_at().toString())
                 .build();
     }
@@ -141,6 +151,7 @@ public class PostService {
                     .title(post.getTitle())
                     .content(post.getContent())
                     .category(post.getCategory())
+                    .views(post.getViews())
                     .create_at(post.getCreated_at().toString())
                     .build();
         }catch (Exception e){
