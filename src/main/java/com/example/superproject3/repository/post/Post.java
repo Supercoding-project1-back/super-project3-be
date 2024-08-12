@@ -1,7 +1,7 @@
 package com.example.superproject3.repository.post;
 
-import com.example.superproject3.repository.userPost.UserPost;
-import com.example.superproject3.repository.entity.Vote;
+import com.example.superproject3.repository.userPost.UserVote;
+import com.example.superproject3.repository.users.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -42,12 +42,13 @@ public class Post {
     @Column
     private String category; // 카테고리
 
-    @OneToMany(mappedBy = "post", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    private List<UserPost> userPosts = new ArrayList<>();
-
     @OneToOne(mappedBy = "post", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private Vote vote;
 
     @OneToOne(mappedBy = "post", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private PostDetail postDetail;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }

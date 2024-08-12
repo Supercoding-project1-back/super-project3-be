@@ -16,9 +16,9 @@ public class PostDetailRequest {
     @Parameter(description = "이미지2 파일, MultipartFile 타입")
     private MultipartFile image2; // 이미지2
 
-    @Schema(description = "지도 x 좌표")
-    private double x; // x 좌표
+    @Schema(description = "지도 x 좌표", example = "10.32401")
+    private Double x; // x 좌표
 
-    @Schema(description = "지도 y 좌표")
-    private double y; // y 좌표
+    @Schema(description = "지도 y 좌표", example = "290.19223")
+    private Double y; // y 좌표
 }
