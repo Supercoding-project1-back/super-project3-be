@@ -1,4 +1,4 @@
-package com.example.superproject3.repository.entity;
+package com.example.superproject3.repository;
 
 import com.example.superproject3.repository.users.User;
 import jakarta.persistence.*;

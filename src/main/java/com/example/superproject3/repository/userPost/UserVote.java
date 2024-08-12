@@ -1,6 +1,6 @@
 package com.example.superproject3.repository.userPost;
 
-import com.example.superproject3.repository.entity.Vote;
+import com.example.superproject3.repository.post.Vote;
 import com.example.superproject3.repository.users.User;
 import com.example.superproject3.repository.post.Post;
 import jakarta.persistence.*;
@@ -15,7 +15,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @AllArgsConstructor
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class UserPost {
+public class UserVote {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,10 +25,9 @@ public class UserPost {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "post_id")
-    private Post post;
-
-    @ManyToOne
     @JoinColumn(name = "vote_id")
     private Vote vote;
+
+    @Column
+    private String vote_item; // 투표한 내용
 }

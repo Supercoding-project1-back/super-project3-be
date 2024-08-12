@@ -1,7 +1,8 @@
 package com.example.superproject3.repository.users;
 
-import com.example.superproject3.repository.entity.Chat;
-import com.example.superproject3.repository.userPost.UserPost;
+import com.example.superproject3.repository.Chat;
+import com.example.superproject3.repository.post.Post;
+import com.example.superproject3.repository.userPost.UserVote;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -52,7 +53,10 @@ public class User {
     private List<Chat> chatAsUser2;
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    private List<UserPost> userPosts = new ArrayList<>();
+    private List<UserVote> userPosts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<Post> posts = new ArrayList<>();
 
     public User() {
         this.roles.add("ROLE_USER"); // 기본 역할

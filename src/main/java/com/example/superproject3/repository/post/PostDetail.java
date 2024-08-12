@@ -24,10 +24,10 @@ public class PostDetail {
     private String image2; // 이미지2
 
     @Column
-    private double x; // x 좌표
+    private Double x; // x 좌표
 
     @Column
-    private double y; // y 좌표
+    private Double y; // y 좌표
 
     @OneToOne
     @JoinColumn(name = "post_id")

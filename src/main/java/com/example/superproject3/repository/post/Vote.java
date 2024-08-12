@@ -1,7 +1,6 @@
-package com.example.superproject3.repository.entity;
+package com.example.superproject3.repository.post;
 
-import com.example.superproject3.repository.userPost.UserPost;
-import com.example.superproject3.repository.post.Post;
+import com.example.superproject3.repository.userPost.UserVote;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -47,7 +46,7 @@ public class Vote {
     private int count4; // 개수4
 
     @OneToMany(mappedBy = "vote", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    private List<UserPost> userPosts = new ArrayList<>();
+    private List<UserVote> userPosts = new ArrayList<>();
 
     @OneToOne
     @JoinColumn(name = "post_id")
