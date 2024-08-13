@@ -23,7 +23,8 @@ public class UserController {
 
     private final UserService userService;
     private final JwtTokenProvider jwtTokenProvider;
-    @Operation(summary = "사용자 조회", description = "사용자를 조회합니다.")
+
+    @Operation(summary = "사용자 정보 조회 (API번호: 16번 외 사용자 정보가 필요한 곳)", description = "사용자 정보를 조회합니다.")
     @GetMapping("/me")
     @ApiResponse(responseCode = "200",
             content = @Content(mediaType = "application/json",
@@ -31,6 +32,7 @@ public class UserController {
                     examples = @ExampleObject(value = """
                                 {
                                     "user": {
+                                        "id": 1,
                                         "email": "user@example.com",
                                         "nickname": "exampleNickname",
                                         "residence": "Songpa",
@@ -59,7 +61,7 @@ public class UserController {
                                     "message": "사용자 정보를 성공적으로 업데이트했습니다."
                                 }""")
             ))
-    @Operation(summary = "사용자 정보 업데이트", description = "사용자를 업데이트합니다.")
+    @Operation(summary = "사용자 정보 업데이트 (API 번호: 16번)", description = "사용자를 업데이트합니다.")
     @PutMapping("/me")
     public ResponseEntity<?> updateUser(@RequestHeader("Authorization") String token, @RequestBody UserRegistrationDto userRegistrationDto) {
         String jwt = token.replace("Bearer ", "");
@@ -81,7 +83,7 @@ public class UserController {
                                     "message": "사용자를 성공적으로 삭제했습니다."
                                 }""")
             ))
-    @Operation(summary = "사용자 삭제", description = "사용자를 삭제합니다.")
+    @Operation(summary = "사용자 삭제 (API 번호: 16번)", description = "사용자를 삭제합니다.")
     @DeleteMapping("/me")
     public ResponseEntity<?> deleteUser(@RequestHeader("Authorization") String token) {
         String jwt = token.replace("Bearer ", "");

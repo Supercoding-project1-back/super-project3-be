@@ -6,6 +6,9 @@ import lombok.Data;
 
 @Data
 public class UserDto {
+    @Schema(description = "사용자 고유 식별자 ID", example = "1")
+    private Long id;
+
     @Schema(description = "사용자의 이메일", example = "user@example.com")
     private String email;
 
@@ -26,6 +29,7 @@ public class UserDto {
 
     public static UserDto fromEntity(User user) {
         UserDto dto = new UserDto();
+        dto.setId(user.getId());
         dto.setEmail(user.getEmail());
         dto.setNickname(user.getNickname());
         dto.setResidence(user.getResidence());
@@ -36,6 +40,7 @@ public class UserDto {
 
     public User toEntity() {
         return User.builder()
+                .id(id)
                 .email(email)
                 .password(password)
                 .nickname(nickname)
