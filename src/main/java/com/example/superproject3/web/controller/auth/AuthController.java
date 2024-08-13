@@ -70,11 +70,19 @@ public class AuthController {
                     examples = @ExampleObject(value = """
                                 {
                                     "message": "거주지 정보가 업데이트되었습니다."
-                                }
-                                """)
+                                }""")
             ))
     @PostMapping("/update-residence")
-    public ResponseEntity<?> updateResidence(@RequestHeader("Authorization") String token, @RequestBody Map<String, String> request){
+    public ResponseEntity<?> updateResidence(@RequestHeader("Authorization") String token, @io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "사용자의 거주지 정보 입력",
+            required = true,
+            content = @Content(mediaType = "application/json",
+                    examples = @ExampleObject(value = """
+                                {
+                                    "residence": "songpa"
+                                }""")
+            )
+    ) @RequestBody Map<String, String> request){
         String jwt = token.replace("Bearer", "");
         String email = jwtTokenProvider.getUsername(jwt);
         String residence = request.get("residence");
