@@ -1,6 +1,6 @@
 package com.example.superproject3.repository.users;
 
-import com.example.superproject3.repository.Chat;
+import com.example.superproject3.repository.chat.Chat;
 import com.example.superproject3.repository.post.Post;
 import com.example.superproject3.repository.userPost.UserVote;
 import jakarta.persistence.*;

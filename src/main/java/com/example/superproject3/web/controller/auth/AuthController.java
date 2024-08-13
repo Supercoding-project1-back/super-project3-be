@@ -28,7 +28,7 @@ public class AuthController {
     private final JwtTokenProvider jwtTokenProvider;
     private final UserService userService;
 
-    @Operation(summary = "카카오 로그인 또는 자동 회원가입", description = "카카오 auth code를 발급받아 로그인 및 자동 회원가입 처리를 하여 JWT토큰을 발급합니다.")
+    @Operation(summary = "카카오 로그인 또는 자동 회원가입 (API번호: 1번)", description = "카카오 auth code를 발급받아 로그인 및 자동 회원가입 처리를 하여 JWT토큰을 발급합니다.")
     @GetMapping("kakao/callback")
     @ApiResponse(responseCode = "200", description = "카카오 회원가입 성공",
             content = @Content(mediaType = "application/json",
@@ -63,18 +63,26 @@ public class AuthController {
         }
     }
 
-    @Operation(summary = "사용자 지역 정보 업데이트", description = "새로 가입한 사용자의 지역 입력")
+    @Operation(summary = "사용자 지역 정보 업데이트 (API번호: 2번)", description = "새로 가입한 사용자의 지역 입력")
     @ApiResponse(responseCode = "200", description = "거주지 정보가 업데이트되었습니다.",
             content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = UserDto.class),
                     examples = @ExampleObject(value = """
                                 {
                                     "message": "거주지 정보가 업데이트되었습니다."
-                                }
-                                """)
+                                }""")
             ))
     @PostMapping("/update-residence")
-    public ResponseEntity<?> updateResidence(@RequestHeader("Authorization") String token, @RequestBody Map<String, String> request){
+    public ResponseEntity<?> updateResidence(@RequestHeader("Authorization") String token, @io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "사용자의 거주지 정보 입력",
+            required = true,
+            content = @Content(mediaType = "application/json",
+                    examples = @ExampleObject(value = """
+                                {
+                                    "residence": "songpa"
+                                }""")
+            )
+    ) @RequestBody Map<String, String> request){
         String jwt = token.replace("Bearer", "");
         String email = jwtTokenProvider.getUsername(jwt);
         String residence = request.get("residence");
