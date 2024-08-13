@@ -37,4 +37,15 @@ public class ChatController {
                     .body("채팅방 삭제 실패: 해당 ID의 채팅방을 찾을 수 없습니다.");
         }
     }
+
+    @Operation(summary = "채팅방 정보 확인 (API 번호: 15번)", description = "해당 ID를 가진 채팅방의 정보를 확인합니다.")
+    @GetMapping("/{chatId}")
+    public ResponseEntity<ChatDto> getChatById(@PathVariable Long chatId) {
+        try {
+            ChatDto chatDto = chatService.getChatById(chatId);
+            return ResponseEntity.ok(chatDto);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
 }

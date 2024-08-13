@@ -1,8 +1,11 @@
 package com.example.superproject3.service.chat;
 
+import com.example.superproject3.repository.chat.Chat;
 import com.example.superproject3.repository.chat.ChatRepository;
 import com.example.superproject3.repository.chat.Message;
 import com.example.superproject3.repository.chat.MessageRepository;
+import com.example.superproject3.repository.users.User;
+import com.example.superproject3.repository.users.UserRepository;
 import com.example.superproject3.web.dto.chat.MessageDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,21 +18,27 @@ import java.util.Optional;
 public class MessageService {
 
     private final MessageRepository messageRepository;
+    private final UserRepository userRepository;
     private final ChatRepository chatRepository;
 
     public MessageDto createMessage(Long chatId, String content, Long senderId) {
+        Chat chat = chatRepository.findById(chatId).orElseThrow(() -> new RuntimeException("Chat not found"));
+        User sender = userRepository.findById(senderId).orElseThrow(() -> new RuntimeException("Sender not found"));
+
         Message message = Message.builder()
-                .chat(chatRepository.findById(chatId).orElseThrow())
+                .chat(chat)
                 .content(content)
                 .created_at(LocalDateTime.now())
-                .sender_id(senderId)
+                .sender(sender)
                 .build();
+
         Message savedMessage = messageRepository.save(message);
+
         return MessageDto.builder()
                 .messageId(savedMessage.getId())
                 .content(savedMessage.getContent())
                 .createdAt(savedMessage.getCreated_at())
-                .senderId(savedMessage.getSender_id())
+                .senderId(savedMessage.getSender().getId())
                 .chatId(savedMessage.getChat().getId())
                 .build();
     }
@@ -40,7 +49,7 @@ public class MessageService {
                         .messageId(message.getId())
                         .content(message.getContent())
                         .createdAt(message.getCreated_at())
-                        .senderId(message.getSender_id())
+                        .senderId(message.getSender().getId())
                         .chatId(message.getChat().getId())
                         .build());
     }

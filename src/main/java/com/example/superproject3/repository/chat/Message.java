@@ -1,5 +1,6 @@
 package com.example.superproject3.repository.chat;
 
+import com.example.superproject3.repository.users.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -25,10 +26,11 @@ public class Message {
     @Column
     private LocalDateTime created_at; // 전송시간
 
-    @Column
-    private Long sender_id; // 보낸 사람
+    @ManyToOne
+    @JoinColumn(name = "sender_id", nullable = false)
+    private User sender; // 보낸 사람
 
     @ManyToOne
-    @JoinColumn(name = "message_id")
+    @JoinColumn(name = "chat_id", nullable = false)
     private Chat chat;
 }
