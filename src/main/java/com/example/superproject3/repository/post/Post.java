@@ -1,7 +1,7 @@
 package com.example.superproject3.repository.post;
 
-import com.example.superproject3.repository.userPost.UserVote;
 import com.example.superproject3.repository.users.User;
+import com.example.superproject3.repository.vote.Vote;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -9,8 +9,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
