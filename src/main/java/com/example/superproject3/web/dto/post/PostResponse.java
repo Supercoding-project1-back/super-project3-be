@@ -1,5 +1,6 @@
 package com.example.superproject3.web.dto.post;
 
+import com.example.superproject3.web.dto.vote.VoteResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Builder
+@Schema(description = "게시글 요청")
 public class PostResponse {
     @Schema(description = "게시글 Id", example = "1")
     private Long id;
@@ -29,7 +31,7 @@ public class PostResponse {
     @Schema(description = "게시글 조회수", example = "10")
     private int views;
 
-    @Schema(description = "게시글 게시 일자", example = "2024-09-01 00:00:00")
+    @Schema(description = "게시글 게시 일자", example = "2024-09-01T00:00:00")
     private LocalDateTime create_at;
 
     @Schema(description = "지도 좌표와 사진")

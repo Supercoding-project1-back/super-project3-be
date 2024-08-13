@@ -1,12 +1,14 @@
-package com.example.superproject3.web.dto.post;
+package com.example.superproject3.web.dto.vote;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.Column;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@Builder
+@Schema(description = "투표 요청")
 public class VoteRequest {
     @Schema(description = "투표항목1", example = "사과")
     private String item1; // 항목1

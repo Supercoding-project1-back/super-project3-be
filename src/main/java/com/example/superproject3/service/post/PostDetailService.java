@@ -17,10 +17,11 @@ public class PostDetailService {
     private final FileService fileService;
 
     // 게시글 세부사항 생성
-    public PostDetail createPostDetail(PostDetailRequest postDetailRequest) {
+    public PostDetail createPostDetail(PostDetailRequest postDetailRequest, Post post) {
         PostDetail postDetail = postDetailMapper.toEntity(postDetailRequest);
         if(postDetailRequest.getImage1() != null) postDetail.setImage1(fileService.createFile(postDetailRequest.getImage1()));
         if(postDetailRequest.getImage2() != null) postDetail.setImage2(fileService.createFile(postDetailRequest.getImage2()));
+        postDetail.setPost(post);
 
         return postDetailRepository.save(postDetail);
     }
@@ -33,12 +34,12 @@ public class PostDetailService {
         postDetailRepository.delete(post.getPostDetail());
     }
 
-    public void modifyPostDetail(PostDetail postDetail, PostDetailRequest postDetailRequest) {
+    public PostDetail modifyPostDetail(PostDetail postDetail, PostDetailRequest postDetailRequest) {
         if(postDetailRequest.getImage1() != null) postDetail.setImage1(fileService.createFile(postDetailRequest.getImage1()));
         if(postDetailRequest.getImage2() != null) postDetail.setImage2(fileService.createFile(postDetailRequest.getImage2()));
         if(postDetailRequest.getX() != null) postDetail.setX(postDetailRequest.getX());
         if(postDetailRequest.getY() != null) postDetail.setY(postDetailRequest.getY());
 
-        postDetailRepository.save(postDetail);
+        return postDetailRepository.save(postDetail);
     }
 }

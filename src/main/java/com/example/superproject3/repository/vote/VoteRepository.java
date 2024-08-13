@@ -1,4 +1,4 @@
-package com.example.superproject3.repository.post;
+package com.example.superproject3.repository.vote;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

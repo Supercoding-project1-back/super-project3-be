@@ -1,8 +1,9 @@
 package com.example.superproject3.service.mapper;
 
-import com.example.superproject3.repository.post.Vote;
-import com.example.superproject3.web.dto.post.VoteRequest;
-import com.example.superproject3.web.dto.post.VoteResponse;
+import com.example.superproject3.repository.vote.Vote;
+import com.example.superproject3.web.dto.vote.UserVoteResponse;
+import com.example.superproject3.web.dto.vote.VoteRequest;
+import com.example.superproject3.web.dto.vote.VoteResponse;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

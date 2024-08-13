@@ -1,5 +1,6 @@
-package com.example.superproject3.repository.post;
+package com.example.superproject3.repository.vote;
 
+import com.example.superproject3.repository.post.Post;
 import com.example.superproject3.repository.userPost.UserVote;
 import jakarta.persistence.*;
 import lombok.*;

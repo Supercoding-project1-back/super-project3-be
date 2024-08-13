@@ -1,8 +1,7 @@
 package com.example.superproject3.repository.userPost;
 
-import com.example.superproject3.repository.post.Vote;
+import com.example.superproject3.repository.vote.Vote;
 import com.example.superproject3.repository.users.User;
-import com.example.superproject3.repository.post.Post;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
