@@ -118,6 +118,7 @@ public class PostService {
                 .title(postRequest.getTitle())
                 .content(postRequest.getContent())
                 .category(postRequest.getCategory())
+                .user(user)
                 .postDetail(postDetail)
                 .vote(vote)
                 .build();
