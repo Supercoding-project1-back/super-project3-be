@@ -40,7 +40,7 @@ public class CommentController {
     }
 
     @Operation(summary = "댓글 수정 (API 번호 : 8번)", description = "댓글을 수정합니다.")
-    @PostMapping("/modify-comment/{comment-id}")
+    @PutMapping("/modify-comment/{comment-id}")
     public ResponseEntity<CommentResponse> modifyComment(@AuthenticationPrincipal CustomUserDetails customUserDetails, @PathVariable("comment-id") Long id, @RequestBody CommentRequest commentRequest) {
         CommentResponse response = commentService.modifyComment(customUserDetails.getUsername(), id, commentRequest);
         return ResponseEntity.ok(response);
