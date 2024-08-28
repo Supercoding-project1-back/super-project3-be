@@ -58,7 +58,7 @@ public class CommentService {
     public Page<CommentResponse> getCommentByPostId(Long postId, Pageable pageable){
         return commentRepository.findByPostId(postId, pageable)
                 .map(c->CommentResponse.builder()
-                        .postId(postId)
+                        .postId(c.getPost().getId())
                         .commentId(c.getId())
                         .email(c.getUser().getEmail())
                         .profilePicture(c.getUser().getProfile_picture())
@@ -72,7 +72,7 @@ public class CommentService {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(()-> new IllegalArgumentException("해당 댓글이 존재하지 않습니다."));
         return CommentResponse.builder()
-                .postId(null)
+                .postId(comment.getPost().getId())
                 .commentId(comment.getId())
                 .email(comment.getUser().getEmail())
                 .profilePicture(comment.getUser().getProfile_picture())
@@ -100,7 +100,7 @@ public class CommentService {
         commentRepository.save(comment);
 
         return CommentResponse.builder()
-                .postId(null)
+                .postId(comment.getPost().getId())
                 .commentId(comment.getId())
                 .email(comment.getUser().getEmail())
                 .profilePicture(comment.getUser().getProfile_picture())

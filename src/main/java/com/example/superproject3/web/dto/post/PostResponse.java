@@ -16,8 +16,8 @@ public class PostResponse {
     @Schema(description = "게시글 Id", example = "1")
     private Long id;
 
-    @Schema(description = "사용자 이메일", example = "test@gmail.com")
-    private String email;
+    @Schema(description = "사용자 닉네임", example = "tester")
+    private String nickname;
 
     @Schema(description = "게시글 제목", example = "안녕하세요?")
     private String title;
