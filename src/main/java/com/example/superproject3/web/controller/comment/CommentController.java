@@ -4,6 +4,7 @@ import com.example.superproject3.service.comment.CommentService;
 import com.example.superproject3.service.user.CustomUserDetails;
 import com.example.superproject3.web.dto.comment.CommentRequest;
 import com.example.superproject3.web.dto.comment.CommentResponse;
+import com.example.superproject3.web.dto.post.PostResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -50,5 +51,11 @@ public class CommentController {
     public ResponseEntity<String> deleteComment(@AuthenticationPrincipal CustomUserDetails customUserDetails, @PathVariable("comment-id") Long id) {
         commentService.deleteComment(customUserDetails.getUsername(), id);
         return ResponseEntity.ok().body("글 삭제를 성공했습니다.");
+    }
+
+    @Operation(summary = "사용자별 댓글 (API 번호: 8번)", description = "사용자별 댓글을 조회합니다.")
+    @GetMapping("/comments-by-user")
+    public ResponseEntity<Page<CommentResponse>> getPostsByUser(@AuthenticationPrincipal CustomUserDetails customUserDetails, Pageable pageable) {
+        return ResponseEntity.ok(commentService.getCommentsByUserEmail(customUserDetails.getUsername(), pageable));
     }
 }

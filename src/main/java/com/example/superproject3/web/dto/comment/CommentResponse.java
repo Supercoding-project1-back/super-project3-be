@@ -1,9 +1,8 @@
 package com.example.superproject3.web.dto.comment;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 @Getter
 @Setter
@@ -13,8 +12,8 @@ public class CommentResponse {
     private Long postId;
     @Schema(description = "댓글 Id", example = "1")
     private Long commentId;
-    @Schema(description = "사용자 이메일", example = "test@gmail.com")
-    private String email;
+    @Schema(description = "사용자 닉네임", example = "tester")
+    private String nickname;
     @Schema(description = "사용자 프로필 사진", example = "")
     private String profilePicture;
     @Schema(description = "댓글 내용", example = "반가워요!")

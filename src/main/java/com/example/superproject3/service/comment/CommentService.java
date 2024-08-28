@@ -15,8 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class CommentService {
@@ -47,7 +45,7 @@ public class CommentService {
         return CommentResponse.builder()
                 .commentId(savedComment.getId())
                 .postId(savedComment.getPost().getId())
-                .email(savedComment.getUser().getEmail())
+                .nickname(savedComment.getUser().getNickname())
                 .profilePicture(savedComment.getUser().getProfile_picture())
                 .content(savedComment.getContent())
                 .created_at(savedComment.getCreated_at().toString())
@@ -60,7 +58,7 @@ public class CommentService {
                 .map(c->CommentResponse.builder()
                         .postId(c.getPost().getId())
                         .commentId(c.getId())
-                        .email(c.getUser().getEmail())
+                        .nickname(c.getUser().getNickname())
                         .profilePicture(c.getUser().getProfile_picture())
                         .content(c.getContent())
                         .created_at(c.getCreated_at().toString())
@@ -74,11 +72,24 @@ public class CommentService {
         return CommentResponse.builder()
                 .postId(comment.getPost().getId())
                 .commentId(comment.getId())
-                .email(comment.getUser().getEmail())
+                .nickname(comment.getUser().getNickname())
                 .profilePicture(comment.getUser().getProfile_picture())
                 .content(comment.getContent())
                 .created_at(comment.getCreated_at().toString())
                 .build();
+    }
+
+    @Transactional
+    public Page<CommentResponse> getCommentsByUserEmail(String email, Pageable pageable){
+        return commentRepository.findByUserEmail(email, pageable)
+                .map(c->CommentResponse.builder()
+                        .postId(c.getPost().getId())
+                        .commentId(c.getId())
+                        .nickname(c.getUser().getNickname())
+                        .profilePicture(c.getUser().getProfile_picture())
+                        .content(c.getContent())
+                        .created_at(c.getCreated_at().toString())
+                        .build());
     }
 
     @Transactional
@@ -102,7 +113,7 @@ public class CommentService {
         return CommentResponse.builder()
                 .postId(comment.getPost().getId())
                 .commentId(comment.getId())
-                .email(comment.getUser().getEmail())
+                .nickname(comment.getUser().getNickname())
                 .profilePicture(comment.getUser().getProfile_picture())
                 .content(comment.getContent())
                 .created_at(comment.getCreated_at().toString())
