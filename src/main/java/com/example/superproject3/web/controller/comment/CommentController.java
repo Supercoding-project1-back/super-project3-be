@@ -55,7 +55,7 @@ public class CommentController {
 
     @Operation(summary = "사용자별 댓글 (API 번호: 8번)", description = "사용자별 댓글을 조회합니다.")
     @GetMapping("/comments-by-user")
-    public ResponseEntity<Page<CommentResponse>> getPostsByUser(@AuthenticationPrincipal CustomUserDetails customUserDetails, Pageable pageable) {
+    public ResponseEntity<Page<CommentResponse>> getCommentsByUser(@AuthenticationPrincipal CustomUserDetails customUserDetails, Pageable pageable) {
         return ResponseEntity.ok(commentService.getCommentsByUserEmail(customUserDetails.getUsername(), pageable));
     }
 }
