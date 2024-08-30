@@ -15,8 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class CommentService {
@@ -47,7 +45,7 @@ public class CommentService {
         return CommentResponse.builder()
                 .commentId(savedComment.getId())
                 .postId(savedComment.getPost().getId())
-                .email(savedComment.getUser().getEmail())
+                .nickname(savedComment.getUser().getNickname())
                 .profilePicture(savedComment.getUser().getProfile_picture())
                 .content(savedComment.getContent())
                 .created_at(savedComment.getCreated_at().toString())
@@ -58,9 +56,9 @@ public class CommentService {
     public Page<CommentResponse> getCommentByPostId(Long postId, Pageable pageable){
         return commentRepository.findByPostId(postId, pageable)
                 .map(c->CommentResponse.builder()
-                        .postId(postId)
+                        .postId(c.getPost().getId())
                         .commentId(c.getId())
-                        .email(c.getUser().getEmail())
+                        .nickname(c.getUser().getNickname())
                         .profilePicture(c.getUser().getProfile_picture())
                         .content(c.getContent())
                         .created_at(c.getCreated_at().toString())
@@ -72,13 +70,26 @@ public class CommentService {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(()-> new IllegalArgumentException("해당 댓글이 존재하지 않습니다."));
         return CommentResponse.builder()
-                .postId(null)
+                .postId(comment.getPost().getId())
                 .commentId(comment.getId())
-                .email(comment.getUser().getEmail())
+                .nickname(comment.getUser().getNickname())
                 .profilePicture(comment.getUser().getProfile_picture())
                 .content(comment.getContent())
                 .created_at(comment.getCreated_at().toString())
                 .build();
+    }
+
+    @Transactional
+    public Page<CommentResponse> getCommentsByUserEmail(String email, Pageable pageable){
+        return commentRepository.findByUserEmail(email, pageable)
+                .map(c->CommentResponse.builder()
+                        .postId(c.getPost().getId())
+                        .commentId(c.getId())
+                        .nickname(c.getUser().getNickname())
+                        .profilePicture(c.getUser().getProfile_picture())
+                        .content(c.getContent())
+                        .created_at(c.getCreated_at().toString())
+                        .build());
     }
 
     @Transactional
@@ -100,9 +111,9 @@ public class CommentService {
         commentRepository.save(comment);
 
         return CommentResponse.builder()
-                .postId(null)
+                .postId(comment.getPost().getId())
                 .commentId(comment.getId())
-                .email(comment.getUser().getEmail())
+                .nickname(comment.getUser().getNickname())
                 .profilePicture(comment.getUser().getProfile_picture())
                 .content(comment.getContent())
                 .created_at(comment.getCreated_at().toString())
