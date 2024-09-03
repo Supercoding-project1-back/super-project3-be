@@ -36,7 +36,7 @@ public class PostService {
                         .content(r.getContent())
                         .category(r.getCategory())
                         .views(r.getViews())
-                        .create_at(r.getCreated_at())
+                        .create_at(r.getCreatedAt())
                         .postDetailResponse(postDetailService.getPostDetailResponse(r.getPostDetail()))
                         .voteResponse(voteService.getVote(r.getVote()))
                         .build()
@@ -52,7 +52,7 @@ public class PostService {
                         .content(r.getContent())
                         .category(r.getCategory())
                         .views(r.getViews())
-                        .create_at(r.getCreated_at())
+                        .create_at(r.getCreatedAt())
                         .postDetailResponse(postDetailService.getPostDetailResponse(r.getPostDetail()))
                         .voteResponse(voteService.getVote(r.getVote()))
                         .build());
@@ -67,7 +67,7 @@ public class PostService {
                         .content(r.getContent())
                         .category(r.getCategory())
                         .views(r.getViews())
-                        .create_at(r.getCreated_at())
+                        .create_at(r.getCreatedAt())
                         .postDetailResponse(postDetailService.getPostDetailResponse(r.getPostDetail()))
                         .voteResponse(voteService.getVote(r.getVote()))
                         .build());
@@ -86,7 +86,7 @@ public class PostService {
                 .content(post.getContent())
                 .category(post.getCategory())
                 .views(post.getViews())
-                .create_at(post.getCreated_at())
+                .create_at(post.getCreatedAt())
                 .postDetailResponse(postDetailService.getPostDetailResponse(post.getPostDetail()))
                 .voteResponse(voteService.getVote(post.getVote()))
                 .build();
@@ -134,7 +134,7 @@ public class PostService {
                 .content(post.getContent())
                 .category(post.getCategory())
                 .views(post.getViews())
-                .create_at(post.getCreated_at())
+                .create_at(post.getCreatedAt())
                 .voteResponse(voteService.getVote(vote))
                 .build();
     }
@@ -157,7 +157,7 @@ public class PostService {
                 .content(post.getContent())
                 .category(post.getCategory())
                 .views(post.getViews())
-                .create_at(post.getCreated_at())
+                .create_at(post.getCreatedAt())
                 .postDetailResponse(postDetailService.getPostDetailResponse(postDetail))
                 .voteResponse(post.getVote() != null ? voteService.getVote(post.getVote()) : null)
                 .build();
@@ -195,7 +195,7 @@ public class PostService {
                     .content(post.getContent())
                     .category(post.getCategory())
                     .views(post.getViews())
-                    .create_at(post.getCreated_at())
+                    .create_at(post.getCreatedAt())
                     .postDetailResponse(postDetailService.getPostDetailResponse(post.getPostDetail()))
                     .voteResponse(voteService.getVote(post.getVote()))
                     .build();
@@ -223,7 +223,7 @@ public class PostService {
                 .content(post.getContent())
                 .category(post.getCategory())
                 .views(post.getViews())
-                .create_at(post.getCreated_at())
+                .create_at(post.getCreatedAt())
                 .postDetailResponse(postDetailService.getPostDetailResponse(post.getPostDetail()))
                 .voteResponse(voteService.getVote(post.getVote()))
                 .build();
