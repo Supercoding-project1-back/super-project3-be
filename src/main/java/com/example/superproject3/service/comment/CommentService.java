@@ -48,7 +48,7 @@ public class CommentService {
                 .nickname(savedComment.getUser().getNickname())
                 .profilePicture(savedComment.getUser().getProfile_picture())
                 .content(savedComment.getContent())
-                .created_at(savedComment.getCreated_at().toString())
+                .created_at(savedComment.getCreatedAt().toString())
                 .build();
     }
 
@@ -61,7 +61,7 @@ public class CommentService {
                         .nickname(c.getUser().getNickname())
                         .profilePicture(c.getUser().getProfile_picture())
                         .content(c.getContent())
-                        .created_at(c.getCreated_at().toString())
+                        .created_at(c.getCreatedAt().toString())
                         .build());
     }
 
@@ -75,7 +75,7 @@ public class CommentService {
                 .nickname(comment.getUser().getNickname())
                 .profilePicture(comment.getUser().getProfile_picture())
                 .content(comment.getContent())
-                .created_at(comment.getCreated_at().toString())
+                .created_at(comment.getCreatedAt().toString())
                 .build();
     }
 
@@ -88,7 +88,7 @@ public class CommentService {
                         .nickname(c.getUser().getNickname())
                         .profilePicture(c.getUser().getProfile_picture())
                         .content(c.getContent())
-                        .created_at(c.getCreated_at().toString())
+                        .created_at(c.getCreatedAt().toString())
                         .build());
     }
 
@@ -116,7 +116,7 @@ public class CommentService {
                 .nickname(comment.getUser().getNickname())
                 .profilePicture(comment.getUser().getProfile_picture())
                 .content(comment.getContent())
-                .created_at(comment.getCreated_at().toString())
+                .created_at(comment.getCreatedAt().toString())
                 .build();
     }
 

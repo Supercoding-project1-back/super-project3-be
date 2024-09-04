@@ -33,9 +33,9 @@ public class Post {
     @ColumnDefault("0")
     private int views; // 조회수
 
-    @Column
+    @Column(name = "created_at")
     @CreatedDate
-    private LocalDateTime created_at; // 작성시간
+    private LocalDateTime createdAt; // 작성시간
 
     @Column
     private String category; // 카테고리
