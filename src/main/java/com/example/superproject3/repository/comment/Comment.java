@@ -26,9 +26,9 @@ public class Comment {
     @Column(nullable = false)
     private String content;
 
-    @Column
+    @Column(name = "created_at")
     @CreatedDate
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 
     @ManyToOne
     @JoinColumn(name = "post_id")
