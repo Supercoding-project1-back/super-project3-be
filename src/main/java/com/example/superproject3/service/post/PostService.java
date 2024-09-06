@@ -124,7 +124,7 @@ public class PostService {
                 .vote(vote)
                 .build();
 
-        vote.setPost(post);
+        if (vote != null) vote.setPost(post);
         postRepository.save(post);
 
         return PostResponse.builder()
