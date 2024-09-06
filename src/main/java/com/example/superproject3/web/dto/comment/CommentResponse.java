@@ -14,6 +14,8 @@ public class CommentResponse {
     private Long commentId;
     @Schema(description = "사용자 닉네임", example = "tester")
     private String nickname;
+    @Schema(description = "사용자 아이디", example = "1")
+    private Long userId;
     @Schema(description = "사용자 프로필 사진", example = "")
     private String profilePicture;
     @Schema(description = "댓글 내용", example = "반가워요!")
