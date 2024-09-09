@@ -2,6 +2,7 @@ package com.example.superproject3.web.controller.auth;
 
 import com.example.superproject3.config.security.JwtTokenProvider;
 import com.example.superproject3.service.user.AuthService;
+import com.example.superproject3.service.user.TokenService;
 import com.example.superproject3.service.user.UserService;
 import com.example.superproject3.web.dto.user.UserDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,13 +11,14 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
+import java.net.URI;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 @RestController
@@ -27,6 +29,21 @@ public class AuthController {
     private final AuthService authService;
     private final JwtTokenProvider jwtTokenProvider;
     private final UserService userService;
+    private final TokenService tokenService;
+
+    @Operation(summary = "로그아웃 (API 번호: 추가 API)", description = "사용자가 로그아웃을 합니다.")
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(@RequestHeader("Authorization") String token) {
+        String jwt = token.replace("Bearer ", "");
+        try {
+            tokenService.invalidateToken(jwt);
+
+            return ResponseEntity.ok(Map.of("message", "성공적으로 로그아웃되었습니다."));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "로그아웃 실패", "message", e.getMessage()));
+        }
+    }
 
     @Operation(summary = "카카오 로그인 또는 자동 회원가입 (API번호: 1번)", description = "카카오 auth code를 발급받아 로그인 및 자동 회원가입 처리를 하여 JWT토큰을 발급합니다.")
     @GetMapping("kakao/callback")
@@ -39,27 +56,23 @@ public class AuthController {
                                 }
                                 """)
             ))
-    public ResponseEntity<?> kakaoCallback(@RequestParam("code") String code){
-        try{
+    public ResponseEntity<?> kakaoCallback(@RequestParam("code") String code) {
+        try {
             Map<String, Object> result = authService.kakaoLoginOrSignUp(code);
 
             String token = (String) result.get("token");
             boolean isNewUser = (boolean) result.get("isNewUser");
 
-            String email = jwtTokenProvider.getUsername(token);
-            List<SimpleGrantedAuthority> roles = jwtTokenProvider.getRoles(token);
+            String redirectUri = String.format("http://localhost:3000/auth/kakao/callback?token=%s&isNewUser=%s",
+                    URLEncoder.encode(token, StandardCharsets.UTF_8),
+                    isNewUser);
 
-            Map<String, Object> tokenInfo = new HashMap<>();
-            tokenInfo.put("token", token);
-            tokenInfo.put("email", email);
-            tokenInfo.put("roles", roles);
-            tokenInfo.put("isNewUser", isNewUser);
-
-            return ResponseEntity.ok(Map.   of(
-                    "tokenInfo", tokenInfo,
-                    "message", isNewUser? "카카오 회원가입 성공":"카카오 로그인 성공")); //isNewUser가 true일 경우 유저 정보 업데이트 필요
-        } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "카카오 로그인 실패", "message", e.getMessage()));
+            HttpHeaders headers = new HttpHeaders();
+            headers.setLocation(URI.create(redirectUri));
+            return new ResponseEntity<>(headers, HttpStatus.SEE_OTHER);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "카카오 로그인 실패", "message", e.getMessage()));
         }
     }
 

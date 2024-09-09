@@ -49,4 +49,16 @@ public class UserDto {
                 .introduction(introduction)
                 .build();
     }
+
+    @Override
+    public String toString() {
+        return "UserDto{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", residence='" + residence + '\'' +
+                ", profilePicture='" + profilePicture + '\'' +
+                ", introduction='" + introduction + '\'' +
+                '}';
+    }
 }

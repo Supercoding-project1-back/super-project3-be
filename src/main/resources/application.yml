@@ -34,7 +34,7 @@ file:
 
 jwt:
   secret: ${JWT_SECRET}
-  expiration: 3600000 # 1시간
+  expiration: 36000000 # 1시간
 
 kakao:
   KAKAO_CLIENT_ID=${KAKAO_CLIENT_ID}
