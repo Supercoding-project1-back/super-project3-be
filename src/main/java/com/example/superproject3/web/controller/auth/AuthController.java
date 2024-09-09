@@ -63,7 +63,7 @@ public class AuthController {
             String token = (String) result.get("token");
             boolean isNewUser = (boolean) result.get("isNewUser");
 
-            String redirectUri = String.format("http://localhost:3000/auth/kakao/callback?token=%s&isNewUser=%s",
+            String redirectUri = String.format("http://jcntalk.vercel.app/auth/kakao/callback?token=%s&isNewUser=%s",
                     URLEncoder.encode(token, StandardCharsets.UTF_8),
                     isNewUser);
 
