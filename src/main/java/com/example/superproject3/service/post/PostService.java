@@ -237,8 +237,8 @@ public class PostService {
             if (!post.getUser().getEmail().equals(user.getEmail())) {
                 throw new IllegalArgumentException("게시글을 삭제할 수 없습니다.");
             }
-            voteService.deleteVote(post);
-            postDetailService.deletePostDetail(post);
+            if (post.getVote() != null) voteService.deleteVote(post);
+            if (post.getPostDetail() != null) postDetailService.deletePostDetail(post);
             postRepository.delete(post);
         } catch (Exception e) {
             throw new IllegalArgumentException("글 삭제를 실패했습니다.");
