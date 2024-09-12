@@ -69,6 +69,7 @@ public class AuthController {
 
             HttpHeaders headers = new HttpHeaders();
             headers.setLocation(URI.create(redirectUri));
+            System.out.println(isNewUser);
             return new ResponseEntity<>(headers, HttpStatus.SEE_OTHER);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

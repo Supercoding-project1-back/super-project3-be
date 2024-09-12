@@ -43,12 +43,20 @@ public class UserController {
             ))
     public ResponseEntity<?> getUser(@RequestHeader("Authorization") String token) {
         String jwt = token.replace("Bearer ", "");
-        String email = jwtTokenProvider.getUsername(jwt);
+        String email = null;
 
-        try{
+        try {
+            email = jwtTokenProvider.getUsername(jwt);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "유효하지 않은 토큰입니다."));
+        }
+
+        try {
             UserDto userDto = UserDto.fromEntity(userService.getUserByEmail(email));
-            return ResponseEntity.ok("사용자 정보를 성공적으로 조회했습니다: " + userDto.toString());
-        } catch(Exception e){
+            return ResponseEntity.ok(userDto);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", "해당 이메일을 가진 사용자를 찾지 못했습니다."));
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Map.of("error", "사용자 조회 실패", "message", e.getMessage()));
         }
